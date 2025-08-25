@@ -1,0 +1,54 @@
+package id.mrn.portfolio.ui.theme.icon
+
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.unit.dp
+
+val LinkedinFill: ImageVector
+    get() {
+        if (_LinkedinFill != null) {
+            return _LinkedinFill!!
+        }
+        _LinkedinFill = ImageVector.Builder(
+            name = "LinkedinFill",
+            defaultWidth = 24.dp,
+            defaultHeight = 24.dp,
+            viewportWidth = 24f,
+            viewportHeight = 24f
+        ).apply {
+            path(fill = SolidColor(Color(0xFF000000))) {
+                moveTo(6.94f, 5f)
+                curveTo(6.94f, 5.814f, 6.446f, 6.547f, 5.691f, 6.853f)
+                curveTo(4.937f, 7.158f, 4.072f, 6.976f, 3.505f, 6.392f)
+                curveTo(2.938f, 5.807f, 2.782f, 4.937f, 3.111f, 4.192f)
+                curveTo(3.439f, 3.447f, 4.187f, 2.976f, 5f, 3f)
+                curveTo(6.082f, 3.032f, 6.941f, 3.918f, 6.94f, 5f)
+                close()
+                moveTo(7f, 8.48f)
+                horizontalLineTo(3f)
+                verticalLineTo(21f)
+                horizontalLineTo(7f)
+                verticalLineTo(8.48f)
+                close()
+                moveTo(13.321f, 8.48f)
+                horizontalLineTo(9.34f)
+                verticalLineTo(21f)
+                horizontalLineTo(13.281f)
+                verticalLineTo(14.43f)
+                curveTo(13.281f, 10.77f, 18.051f, 10.43f, 18.051f, 14.43f)
+                verticalLineTo(21f)
+                horizontalLineTo(22f)
+                verticalLineTo(13.07f)
+                curveTo(22f, 6.9f, 14.941f, 7.13f, 13.281f, 10.16f)
+                lineTo(13.321f, 8.48f)
+                close()
+            }
+        }.build()
+
+        return _LinkedinFill!!
+    }
+
+@Suppress("ObjectPropertyName")
+private var _LinkedinFill: ImageVector? = null
