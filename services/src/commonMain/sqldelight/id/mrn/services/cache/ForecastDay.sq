@@ -1,3 +1,47 @@
-CREATE TABLE  (
+-- File: ForecastDay.sq
+-- Deskripsi: Menyimpan data prakiraan cuaca harian (ForecastEntity).
 
+CREATE TABLE ForecastDay (
+    id TEXT NOT NULL PRIMARY KEY, -- ID lokal untuk prakiraan harian
+    current_weather_report_id TEXT REFERENCES CurrentWeatherReport(id) ON DELETE CASCADE, -- Opsional, jika prakiraan selalu terikat pada satu CurrentWeatherReport
+    location_id INTEGER NOT NULL REFERENCES Location(id) ON DELETE CASCADE, -- Selalu terikat pada lokasi
+    date_epoch INTEGER NOT NULL,
+    maxtemp_c REAL NOT NULL,
+    maxtemp_f REAL NOT NULL,
+    mintemp_c REAL NOT NULL,
+    mintemp_f REAL NOT NULL,
+    maxwind_kph REAL NOT NULL,
+    maxwind_mph REAL NOT NULL,
+    condition_code INTEGER NOT NULL, -- 'code' dari ForecastEntity
+    condition_text TEXT NOT NULL NOT NULL    -- Tambahan untuk deskripsi teks kondisi cuaca
+    -- Relasi ke HourEntity (List<HourEntity>) ditangani oleh tabel ForecastHour
 );
+
+-- Menyisipkan data prakiraan harian baru.
+insertForecastDay:
+INSERT INTO ForecastDay(
+    id, current_weather_report_id, location_id, date_epoch, maxtemp_c, maxtemp_f, mintemp_c, mintemp_f,
+    maxwind_kph, maxwind_mph, condition_code, condition_text
+) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+
+-- Mendapatkan semua prakiraan harian untuk laporan cuaca tertentu (jika terikat).
+getForecastDaysForReport:
+SELECT * FROM ForecastDay
+WHERE current_weather_report_id = ?
+ORDER BY date_epoch ASC;
+
+-- Mendapatkan semua prakiraan harian untuk lokasi tertentu.
+getForecastDaysForLocation:
+SELECT * FROM ForecastDay
+WHERE location_id = ?
+ORDER BY date_epoch ASC;
+
+-- Menghapus prakiraan harian berdasarkan ID lokalnya.
+-- Ini juga akan menghapus ForecastHour terkait karena ON DELETE CASCADE.
+deleteForecastDayById:
+DELETE FROM ForecastDay
+WHERE id = ?;
+
+-- Menghapus semua data prakiraan harian.
+deleteAllForecastDays:
+DELETE FROM ForecastDay;

@@ -1,12 +1,18 @@
-package id.mrn.portfolio.ui.theme
+package id.mrn.worldweather.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import mrn_portfolio.composeapp.generated.resources.*
 import org.jetbrains.compose.resources.Font
+import worldweather.composeapp.generated.resources.Poppins_Bold
+import worldweather.composeapp.generated.resources.Poppins_Italic
+import worldweather.composeapp.generated.resources.Poppins_Light
+import worldweather.composeapp.generated.resources.Poppins_Medium
+import worldweather.composeapp.generated.resources.Poppins_Regular
+import worldweather.composeapp.generated.resources.Poppins_SemiBold
+import worldweather.composeapp.generated.resources.Res
 
 val poppinsFamily: FontFamily
     @Composable get() = FontFamily(

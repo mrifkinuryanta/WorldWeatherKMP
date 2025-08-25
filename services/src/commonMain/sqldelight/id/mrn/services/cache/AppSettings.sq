@@ -1,3 +1,36 @@
-CREATE TABLE  (
+-- File: AppSettings.sq
+-- Deskripsi: Menyimpan pengaturan aplikasi (SettingEntity).
+-- Diasumsikan hanya ada satu baris data untuk pengaturan.
 
+CREATE TABLE AppSettings (
+    id INTEGER NOT NULL PRIMARY KEY DEFAULT 0 CHECK (id = 0), -- ID tetap untuk baris tunggal pengaturan
+    temp_unit_is_celsius INTEGER NOT NULL DEFAULT 1,    -- 1: Celsius, 0: Fahrenheit
+    wind_speed_unit_is_kph INTEGER NOT NULL DEFAULT 1,  -- 1: kph, 0: mph
+    visibility_unit_is_km INTEGER NOT NULL DEFAULT 1,   -- 1: km, 0: miles
+    gust_speed_unit_is_kph INTEGER NOT NULL DEFAULT 1,  -- 1: kph, 0: mph (sesuai SettingEntity)
+    pressure_unit_is_mb INTEGER NOT NULL DEFAULT 1      -- 1: mb, 0: inches
 );
+
+-- Inisialisasi pengaturan jika belum ada (misalnya saat aplikasi pertama kali dijalankan).
+initSettings:
+INSERT OR IGNORE INTO AppSettings(id, temp_unit_is_celsius, wind_speed_unit_is_kph, visibility_unit_is_km, gust_speed_unit_is_kph, pressure_unit_is_mb)
+VALUES (0, 1, 1, 1, 1, 1); -- ID 0, dengan nilai default
+
+-- Mendapatkan pengaturan aplikasi.
+getSettings:
+SELECT * FROM AppSettings
+WHERE id = 0;
+
+-- Memperbarui semua pengaturan.
+updateAllSettings:
+UPDATE AppSettings SET
+    temp_unit_is_celsius = ?,
+    wind_speed_unit_is_kph = ?,
+    visibility_unit_is_km = ?,
+    gust_speed_unit_is_kph = ?,
+    pressure_unit_is_mb = ?
+WHERE id = 0;
+
+-- Contoh query untuk memperbarui unit suhu secara spesifik.
+updateTempUnit:
+UPDATE AppSettings SET temp_unit_is_celsius = ? WHERE id = 0;

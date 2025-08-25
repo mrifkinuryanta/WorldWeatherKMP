@@ -1,3 +1,47 @@
-CREATE TABLE  (
+-- File: Alert.sq
+-- Deskripsi: Menyimpan data peringatan cuaca (AlertEntity).
+-- Setiap peringatan terkait dengan satu CurrentWeatherReport.
 
+CREATE TABLE Alert (
+    id TEXT NOT NULL PRIMARY KEY, -- ID lokal untuk peringatan
+    current_weather_report_id TEXT NOT NULL REFERENCES CurrentWeatherReport(id) ON DELETE CASCADE,
+    headline TEXT NOT NULL,
+    msg_type TEXT NOT NULL, -- msgType diubah menjadi msg_type
+    severity TEXT NOT NULL,
+    urgency TEXT NOT NULL,
+    areas TEXT NOT NULL,
+    category TEXT NOT NULL,
+    certainty TEXT NOT NULL,
+    event TEXT NOT NULL,
+    note TEXT NOT NULL,
+    effective TEXT NOT NULL, -- Sebaiknya simpan sebagai epoch atau ISO8601 string
+    expires TEXT NOT NULL,   -- Sebaiknya simpan sebagai epoch atau ISO8601 string
+    description TEXT NOT NULL, -- desc diubah menjadi description
+    instruction TEXT NOT NULL
 );
+
+-- Menyisipkan peringatan baru.
+insertAlert:
+INSERT INTO Alert(
+    id, current_weather_report_id, headline, msg_type, severity, urgency, areas, category,
+    certainty, event, note, effective, expires, description, instruction
+) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+
+-- Mendapatkan semua peringatan untuk laporan cuaca tertentu.
+getAlertsForReport:
+SELECT * FROM Alert
+WHERE current_weather_report_id = ?;
+
+-- Menghapus peringatan berdasarkan ID lokalnya.
+deleteAlertById:
+DELETE FROM Alert
+WHERE id = ?;
+
+-- Menghapus semua peringatan untuk laporan cuaca tertentu.
+deleteAlertsForReport:
+DELETE FROM Alert
+WHERE current_weather_report_id = ?;
+
+-- Menghapus semua data peringatan.
+deleteAllAlerts:
+DELETE FROM Alert;

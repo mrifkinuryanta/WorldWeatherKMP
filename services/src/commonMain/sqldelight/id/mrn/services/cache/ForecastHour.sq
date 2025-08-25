@@ -1,3 +1,32 @@
-CREATE TABLE  (
+-- File: ForecastHour.sq
+-- Deskripsi: Menyimpan data prakiraan cuaca per jam (HourEntity).
 
+CREATE TABLE ForecastHour (
+    id TEXT NOT NULL PRIMARY KEY, -- ID lokal untuk prakiraan per jam
+    forecast_day_id TEXT NOT NULL REFERENCES ForecastDay(id) ON DELETE CASCADE,
+    time_epoch INTEGER NOT NULL,
+    temp_c REAL NOT NULL,
+    temp_f REAL NOT NULL,
+    is_day INTEGER NOT NULL, -- 0 untuk malam, 1 untuk siang
+    condition_code INTEGER NOT NULL -- 'code' dari HourEntity
 );
+
+-- Menyisipkan data prakiraan per jam baru.
+insertForecastHour:
+INSERT INTO ForecastHour(id, forecast_day_id, time_epoch, temp_c, temp_f, is_day, condition_code)
+VALUES (?,?, ?, ?, ?, ?, ?);
+
+-- Mendapatkan semua prakiraan per jam untuk satu hari prakiraan tertentu.
+getForecastHoursForDay:
+SELECT * FROM ForecastHour
+WHERE forecast_day_id = ?
+ORDER BY time_epoch ASC;
+
+-- Menghapus prakiraan per jam berdasarkan ID lokalnya.
+deleteForecastHourById:
+DELETE FROM ForecastHour
+WHERE id = ?;
+
+-- Menghapus semua data prakiraan per jam.
+deleteAllForecastHours:
+DELETE FROM ForecastHour;

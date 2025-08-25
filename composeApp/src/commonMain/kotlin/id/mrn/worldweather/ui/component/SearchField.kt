@@ -1,4 +1,4 @@
-package com.mrndevs.worldweather.ui.component
+package id.mrn.worldweather.ui.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -30,14 +30,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
-import com.mrndevs.worldweather.R
-import com.mrndevs.worldweather.ui.theme.SP16
-import com.mrndevs.worldweather.ui.theme.accordion
+import org.jetbrains.compose.resources.painterResource
+import worldweather.composeapp.generated.resources.Res
+import worldweather.composeapp.generated.resources.ic_search_line_24
 
 @Composable
 fun SearchField(
@@ -94,13 +92,13 @@ private fun SearchFieldContent(
             .fillMaxWidth()
             .focusRequester(focusRequester),
         interactionSource = interactionSource,
-        textStyle = SP16.copy(color = Color.White),
+        textStyle = MaterialTheme.typography.titleLarge.copy(color = Color.White),
         enabled = true,
         singleLine = true,
         cursorBrush = SolidColor(Color.White),
-        keyboardOptions = KeyboardOptions(
+        keyboardOptions = KeyboardOptions.Default.copy(
             imeAction = ImeAction.Search,
-            autoCorrect = true,
+            autoCorrectEnabled = true,
             keyboardType = KeyboardType.Text,
             capitalization = KeyboardCapitalization.Sentences
         ),
@@ -119,18 +117,18 @@ private fun SearchFieldContent(
                 enabled = false
             ) {
                 Icon(
-                    painter = painterResource(R.drawable.ic_search_line_24),
+                    painter = painterResource(Res.drawable.ic_search_line_24),
                     tint = Color.White,
-                    contentDescription = stringResource(R.string.placeholder_search)
+                    contentDescription = "Search"
                 )
             }
             Box {
                 innerTextField()
                 if (query.isEmpty()) {
                     Text(
-                        text = stringResource(R.string.placeholder_search),
-                        color = accordion,
-                        style = SP16
+                        text = "Search",
+                        color = MaterialTheme.colorScheme.surface,
+                        style = MaterialTheme.typography.bodyLarge
                     )
                 }
             }
@@ -145,7 +143,7 @@ private fun SearchFieldContent(
                     Icon(
                         imageVector = Icons.Rounded.Close,
                         tint = Color.White,
-                        contentDescription = stringResource(R.string.placeholder_clear_text)
+                        contentDescription = "Clear Search Query"
                     )
                 }
             }

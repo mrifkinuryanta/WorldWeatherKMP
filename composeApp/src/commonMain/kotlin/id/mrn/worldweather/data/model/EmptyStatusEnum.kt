@@ -1,32 +1,35 @@
-package com.mrndevs.worldweather.data.source.local.model
+package id.mrn.worldweather.data.model
 
-import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
-import com.mrndevs.worldweather.R
+import org.jetbrains.compose.resources.DrawableResource
+import worldweather.composeapp.generated.resources.Res
+import worldweather.composeapp.generated.resources.img_empty
+import worldweather.composeapp.generated.resources.img_offline
+import worldweather.composeapp.generated.resources.img_search
+import worldweather.composeapp.generated.resources.img_welcoming
 
 enum class EmptyStatusEnum(
-    @StringRes val title: Int,
-    @StringRes val placeholder: Int,
-    @DrawableRes val image: Int
+    val title: String,
+    val placeholder: String,
+    val image: DrawableResource
 ) {
     SEARCH(
-        title = R.string.title_search,
-        placeholder = R.string.placeholder_message_search,
-        image = R.drawable.img_search
+        title = "Search for a city",
+        placeholder = "Search",
+        image = Res.drawable.img_search
     ),
     EMPTY_SEARCH(
-        title = R.string.title_empty_search,
-        placeholder = R.string.placeholder_message_empty_search,
-        image = R.drawable.img_empty
+        title = "No results found",
+        placeholder = "Please check you have the right spelling,or try different keywords.",
+        image = Res.drawable.img_empty
     ),
     FIRST_RUN_APP(
-        title = R.string.title_welcome,
-        placeholder = R.string.placeholder_message_welcome,
-        image = R.drawable.img_welcoming
+        title = "Welcome to World Weather App!",
+        placeholder = "Search for a city to get started.",
+        image = Res.drawable.img_welcoming
     ),
     OFFLINE(
-        title = R.string.title_offline,
-        placeholder = R.string.placeholder_message_offline,
-        image = R.drawable.img_offline
+        title = "No internet connection",
+        placeholder = "You don't seem to be connected to the internet. Please check your connection and try again.",
+        image = Res.drawable.img_offline
     )
 }

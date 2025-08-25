@@ -7,14 +7,14 @@ import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
 
-class WeatherApi(private val httpClient: HttpClient) {
-    suspend fun getWeatherData(city: String): WeatherEntity {
+class WeatherApiDataSourceImpl(private val httpClient: HttpClient) : WeatherApiDataSource {
+    override suspend fun getWeather(query: String): WeatherEntity {
         return httpClient
-            .get("/forecast.json?key=$API_KEY&q=$city&days=3&aqi=yes&alerts=yes")
+            .get("/forecast.json?key=$API_KEY&q=$query&days=3&aqi=yes&alerts=yes")
             .body()
     }
 
-    suspend fun search(query: Any): List<SearchEntity> {
+    override suspend fun search(query: String): List<SearchEntity> {
         return httpClient
             .get("/search.json?key=$API_KEY&q=$query")
             .body()

@@ -1,42 +1,48 @@
 package id.mrn.worldweather.ui.screen.weather.view
+
 import androidx.compose.foundation.layout.Column
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.tagsamurai.tscomponents.scaffold.Scaffold
-import com.tagsamurai.tscomponents.snackbar.OnShowSnackBar
+import id.mrn.worldweather.ui.component.Scaffold
+import id.mrn.worldweather.ui.screen.weather.uistate.WeatherUiState
+import id.mrn.worldweather.ui.screen.weather.viewmodel.WeatherViewModel
+import org.koin.compose.koinInject
 
 @Composable
 fun WeatherScreen(
     onNavigateUp: () -> Unit,
     onNavigateTo: (String) -> Unit,
-    onShowSnackBar: OnShowSnackBar
 ) {
-    val viewModel: WeatherViewModel = hiltViewModel()
+    val viewModel: WeatherViewModel = koinInject()
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
 //    val callback = viewModel.getCallback()
 
-//    LaunchedEffect(Unit) {
-//        viewModel.init()
-//    }
+    DisposableEffect(Unit) {
+        viewModel.init()
+
+        onDispose {
+            viewModel.onClear()
+        }
+    }
 
     WeatherScreen(
         uiState = uiState.value,
 //        callback = callback,
         onNavigateUp = onNavigateUp,
-        onNavigateTo = onNavigateTo,
-        onShowSnackBar = onShowSnackBar
+        onNavigateTo = onNavigateTo
     )
 }
 
 @Composable
 fun WeatherScreen(
     uiState: WeatherUiState,
-//    callback: ExampleCallback,    
+//    callback: ExampleCallback,
     onNavigateUp: () -> Unit,
-    onNavigateTo: (String) -> Unit,
-    onShowSnackBar: OnShowSnackBar
+    onNavigateTo: (String) -> Unit
 ) {
 //    HandleState(
 //        state = uiState.deleteState,
@@ -46,11 +52,25 @@ fun WeatherScreen(
 //        onDispose = homeCallback.onResetMessageState
 //    )
 
-    Scaffold(
-        isShowLoadingOverlay = uiState.isLoadingOverlay
-    ) {
+    Scaffold {
         Column {
-            // other content
+            Text(
+                text = "Weather Screen",
+                style = MaterialTheme.typography.headlineLarge,
+                color = Color.Black
+            )
+            Text(
+                text = "Search Results: ${uiState.searchResults.size}",
+                style = MaterialTheme.typography.titleMedium,
+                color = Color.Black
+            )
+            uiState.searchResults.forEach { value ->
+                Text(
+                    text = value.name,
+                    style = MaterialTheme.typography.titleLarge,
+                    color = Color.Black
+                )
+            }
         }
     }
 }

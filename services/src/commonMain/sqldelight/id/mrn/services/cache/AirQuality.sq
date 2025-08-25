@@ -1,3 +1,35 @@
-CREATE TABLE  (
+-- File: AirQuality.sq
+-- Deskripsi: Menyimpan data kualitas udara.
+-- Tabel ini akan direferensikan oleh CurrentWeatherReport dan ForecastDay.
 
+CREATE TABLE AirQuality (
+    id TEXT NOT NULL PRIMARY KEY, -- ID lokal untuk baris kualitas udara
+    co REAL NOT NULL,
+    no2 REAL NOT NULL,
+    o3 REAL NOT NULL,
+    so2 REAL NOT NULL,
+    pm2_5 REAL NOT NULL,
+    pm10 REAL NOT NULL,
+    us_epa_index INTEGER NOT NULL, -- Nama kolom disesuaikan (us-epa-index -> us_epa_index)
+    gb_defra_index INTEGER NOT NULL -- Nama kolom disesuaikan (gb-defra-index -> gb_defra_index)
 );
+
+-- Menyisipkan data kualitas udara baru.
+-- SQLDelight akan menyediakan cara untuk mendapatkan ID yang baru dibuat (misalnya, melalui objek yang dikembalikan atau last_insert_rowid()).
+insertAirQuality:
+INSERT INTO AirQuality(id, co, no2, o3, so2, pm2_5, pm10, us_epa_index, gb_defra_index)
+VALUES (?,?, ?, ?, ?, ?, ?, ?, ?);
+
+-- Mendapatkan data kualitas udara berdasarkan ID.
+getAirQualityById:
+SELECT * FROM AirQuality
+WHERE id = ?;
+
+-- Menghapus data kualitas udara berdasarkan ID.
+deleteAirQualityById:
+DELETE FROM AirQuality
+WHERE id = ?;
+
+-- Menghapus semua data kualitas udara.
+deleteAllAirQuality:
+DELETE FROM AirQuality;

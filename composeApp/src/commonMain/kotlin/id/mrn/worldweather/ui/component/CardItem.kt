@@ -1,4 +1,4 @@
-package com.mrndevs.worldweather.ui.component
+package id.mrn.worldweather.ui.component
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.shape.RoundedCornerShape

@@ -1,3 +1,61 @@
-CREATE TABLE  (
+-- File: CurrentWeatherReport.sq
+-- Deskripsi: Menyimpan data cuaca saat ini (CurrentEntity).
 
+CREATE TABLE CurrentWeatherReport (
+    id TEXT NOT NULL PRIMARY KEY, -- ID lokal untuk laporan cuaca saat ini
+    location_id INTEGER NOT NULL REFERENCES Location(id) ON DELETE CASCADE,
+    last_updated_epoch INTEGER NOT NULL,
+    temp_c REAL NOT NULL,
+    temp_f REAL NOT NULL,
+    feelslike_c REAL NOT NULL,
+    feelslike_f REAL NOT NULL,
+    is_day INTEGER NOT NULL, -- 0 untuk malam, 1 untuk siang
+    wind_kph REAL NOT NULL,
+    wind_mph REAL NOT NULL,
+    wind_degree INTEGER NOT NULL,
+    wind_dir TEXT NOT NULL,
+    pressure_mb REAL NOT NULL,
+    pressure_in REAL NOT NULL,
+    humidity INTEGER NOT NULL,
+    cloud INTEGER NOT NULL,
+    vis_km REAL NOT NULL,
+    vis_miles REAL NOT NULL,
+    gust_mph REAL NOT NULL,
+    gust_kph REAL NOT NULL,
+    uv REAL NOT NULL,
+    condition_code INTEGER NOT NULL, -- 'code' diubah namanya menjadi 'condition_code'
+    condition_text TEXT NOT NULL,    -- 'text' diubah namanya menjadi 'condition_text'
+    current_air_quality_id TEXT NOT NULL REFERENCES AirQuality(id) ON DELETE SET NULL -- Foreign Key ke AirQuality
+    -- Relasi ke ForecastEntity (List<ForecastEntity>) ditangani oleh tabel ForecastDay
+    -- Relasi ke AlertEntity ditangani oleh tabel Alert
 );
+
+-- Menyisipkan laporan cuaca saat ini yang baru.
+insertCurrentWeatherReport:
+INSERT INTO CurrentWeatherReport(
+    id, location_id, last_updated_epoch, temp_c, temp_f, feelslike_c, feelslike_f, is_day,
+    wind_kph, wind_mph, wind_degree, wind_dir, pressure_mb, pressure_in, humidity, cloud,
+    vis_km, vis_miles, gust_mph, gust_kph, uv, condition_code, condition_text, current_air_quality_id
+) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+
+-- Mendapatkan laporan cuaca saat ini terbaru untuk lokasi tertentu.
+getLatestCurrentWeatherReportForLocation:
+SELECT * FROM CurrentWeatherReport
+WHERE location_id = ?
+ORDER BY last_updated_epoch DESC
+LIMIT 1;
+
+-- Mendapatkan laporan cuaca saat ini berdasarkan ID lokalnya.
+getCurrentWeatherReportById:
+SELECT * FROM CurrentWeatherReport
+WHERE id = ?;
+
+-- Menghapus laporan cuaca saat ini berdasarkan ID.
+-- Ini juga akan menghapus Alert dan ForecastDay terkait karena ON DELETE CASCADE.
+deleteCurrentWeatherReportById:
+DELETE FROM CurrentWeatherReport
+WHERE id = ?;
+
+-- Menghapus semua laporan cuaca saat ini.
+deleteAllCurrentWeatherReports:
+DELETE FROM CurrentWeatherReport;

@@ -1,7 +1,9 @@
 package id.mrn.services.util
 
+import java.util.UUID
+
 object Util {
 
 }
 
-expect fun generateUUID(): String
+actual fun generateUUID(): String = UUID.randomUUID().toString()

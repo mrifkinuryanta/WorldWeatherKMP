@@ -1,9 +1,9 @@
 package id.mrn.services.util
 
-import java.util.UUID
+import platform.Foundation.NSUUID
 
 object Util {
 
 }
 
-actual fun generateUUID(): String = UUID.randomUUID().toString()
+actual fun generateUUID(): String = NSUUID().UUIDString()

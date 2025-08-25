@@ -1,4 +1,4 @@
-package com.tagsamurai.services.base
+package id.mrn.services.base
 
 /**
  * A sealed class that represents the result of an operation, which can be either a success or an error.

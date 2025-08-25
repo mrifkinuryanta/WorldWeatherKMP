@@ -1,3 +1,37 @@
-CREATE TABLE Location (
+-- File: Location.sq
+-- Deskripsi: Menyimpan data lokasi.
 
+CREATE TABLE Location (
+    id INTEGER NOT NULL PRIMARY KEY, -- ID dari API, bukan autoincrement
+    name TEXT NOT NULL,
+    region TEXT NOT NULL,
+    country TEXT NOT NULL,
+    lat REAL NOT NULL, -- Menggunakan REAL untuk Double
+    lon REAL NOT NULL,
+    tz_id TEXT NOT NULL,
+    localtime_epoch INTEGER NOT NULL -- Menggunakan INTEGER untuk Long
 );
+
+-- Menyisipkan atau mengganti data lokasi berdasarkan ID.
+insertOrReplaceLocation:
+INSERT OR REPLACE INTO Location(id, name, region, country, lat, lon, tz_id, localtime_epoch)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?);
+
+-- Mendapatkan lokasi berdasarkan ID.
+getLocationById:
+SELECT * FROM Location
+WHERE id = ?;
+
+-- Mendapatkan semua lokasi.
+getAllLocations:
+SELECT Location.* FROM Location;
+
+-- Menghapus lokasi berdasarkan ID.
+-- Hati-hati: ON DELETE CASCADE pada tabel lain akan menghapus data terkait.
+deleteLocationById:
+DELETE FROM Location
+WHERE id = ?;
+
+-- Menghapus semua data lokasi.
+deleteAllLocations:
+DELETE FROM Location;

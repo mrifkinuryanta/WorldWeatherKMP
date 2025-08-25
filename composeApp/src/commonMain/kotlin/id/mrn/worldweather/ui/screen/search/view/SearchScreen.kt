@@ -1,42 +1,48 @@
 package id.mrn.worldweather.ui.screen.search.view
+
 import androidx.compose.foundation.layout.Column
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.tagsamurai.tscomponents.scaffold.Scaffold
-import com.tagsamurai.tscomponents.snackbar.OnShowSnackBar
+import id.mrn.worldweather.ui.component.Scaffold
+import id.mrn.worldweather.ui.component.SearchField
+import id.mrn.worldweather.ui.screen.search.model.SearchCallback
+import id.mrn.worldweather.ui.screen.search.uistate.SearchUiState
+import id.mrn.worldweather.ui.screen.search.viewmodel.SearchViewModel
+import org.koin.compose.koinInject
 
 @Composable
 fun SearchScreen(
     onNavigateUp: () -> Unit,
     onNavigateTo: (String) -> Unit,
-    onShowSnackBar: OnShowSnackBar
 ) {
-    val viewModel: SearchViewModel = hiltViewModel()
+    val viewModel: SearchViewModel = koinInject()
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
-//    val callback = viewModel.getCallback()
+    val callback = viewModel.getCallback()
 
-//    LaunchedEffect(Unit) {
-//        viewModel.init()
-//    }
+    DisposableEffect(Unit) {
+        viewModel.init()
+
+        onDispose { viewModel.onClear() }
+    }
 
     SearchScreen(
         uiState = uiState.value,
-//        callback = callback,
+        callback = callback,
         onNavigateUp = onNavigateUp,
-        onNavigateTo = onNavigateTo,
-        onShowSnackBar = onShowSnackBar
+        onNavigateTo = onNavigateTo
     )
 }
 
 @Composable
 fun SearchScreen(
     uiState: SearchUiState,
-//    callback: ExampleCallback,    
+    callback: SearchCallback,
     onNavigateUp: () -> Unit,
-    onNavigateTo: (String) -> Unit,
-    onShowSnackBar: OnShowSnackBar
+    onNavigateTo: (String) -> Unit
 ) {
 //    HandleState(
 //        state = uiState.deleteState,
@@ -46,11 +52,28 @@ fun SearchScreen(
 //        onDispose = homeCallback.onResetMessageState
 //    )
 
-    Scaffold(
-        isShowLoadingOverlay = uiState.isLoadingOverlay
-    ) {
+    Scaffold(containerColor = Color.White) {
         Column {
-            // other content
+            SearchField(
+                onRemoveQuery = {
+                    callback.onSearch("")
+                },
+                onSearchConfirm = {
+                    callback.onSearch(it)
+                }
+            )
+            Text(
+                text = "Search Results: ${uiState.searchResults.size}",
+                style = MaterialTheme.typography.titleMedium,
+                color = Color.Black
+            )
+            uiState.searchResults.forEach { value ->
+                Text(
+                    text = "${value.name} (${value.country})",
+                    style = MaterialTheme.typography.titleLarge,
+                    color = Color.Black
+                )
+            }
         }
     }
 }

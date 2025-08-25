@@ -17,6 +17,8 @@ data class WeatherEntity(
 ) {
     @Serializable
     data class Location(
+        @SerialName("id")
+        val id: Int = 0,
         @SerialName("name")
         val name: String = "",
         @SerialName("region")
@@ -30,15 +32,13 @@ data class WeatherEntity(
         @SerialName("tz_id")
         val tzId: String = "",
         @SerialName("localtime_epoch")
-        val localtimeEpoch: Int = 0,
-        @SerialName("localtime")
-        val localtime: String = ""
+        val localtimeEpoch: Long = 0L
     )
 
     @Serializable
     data class Current(
         @SerialName("last_updated_epoch")
-        val lastUpdatedEpoch: Int = 0,
+        val lastUpdatedEpoch: Long = 0L,
         @SerialName("temp_c")
         val tempC: Double = 0.0,
         @SerialName("temp_f")
@@ -64,17 +64,9 @@ data class WeatherEntity(
         @SerialName("cloud")
         val cloud: Int = 0,
         @SerialName("feelslike_c")
-        val feelslikeC: Int = 0,
+        val feelsLikeC: Int = 0,
         @SerialName("feelslike_f")
-        val feelslikeF: Int = 0,
-        @SerialName("heatindex_c")
-        val heatindexC: Double = 0.0,
-        @SerialName("heatindex_f")
-        val heatindexF: Double = 0.0,
-        @SerialName("dewpoint_c")
-        val dewpointC: Double = 0.0,
-        @SerialName("dewpoint_f")
-        val dewpointF: Double = 0.0,
+        val feelsLikeF: Int = 0,
         @SerialName("vis_km")
         val visKm: Int = 0,
         @SerialName("vis_miles")
@@ -120,45 +112,43 @@ data class WeatherEntity(
     @Serializable
     data class Forecast(
         @SerialName("forecastday")
-        val forecastday: List<Forecastday> = listOf()
+        val forecastDay: List<ForecastDay> = listOf()
     ) {
         @Serializable
-        data class Forecastday(
+        data class ForecastDay(
             @SerialName("date_epoch")
-            val dateEpoch: Int = 0,
+            val dateEpoch: Long = 0L,
             @SerialName("day")
             val day: Day = Day(),
-            @SerialName("astro")
-            val astro: Astro = Astro(),
             @SerialName("hour")
             val hour: List<Hour> = listOf()
         ) {
             @Serializable
             data class Day(
                 @SerialName("maxtemp_c")
-                val maxtempC: Double = 0.0,
+                val maxTempC: Double = 0.0,
                 @SerialName("maxtemp_f")
-                val maxtempF: Double = 0.0,
+                val maxTempF: Double = 0.0,
                 @SerialName("mintemp_c")
-                val mintempC: Double = 0.0,
+                val minTempC: Double = 0.0,
                 @SerialName("mintemp_f")
-                val mintempF: Double = 0.0,
+                val minTempF: Double = 0.0,
                 @SerialName("avgtemp_c")
-                val avgtempC: Double = 0.0,
+                val avgTempC: Double = 0.0,
                 @SerialName("avgtemp_f")
-                val avgtempF: Double = 0.0,
+                val avgTempF: Double = 0.0,
                 @SerialName("maxwind_mph")
-                val maxwindMph: Double = 0.0,
+                val maxWindMph: Double = 0.0,
                 @SerialName("maxwind_kph")
-                val maxwindKph: Double = 0.0,
+                val maxWindKph: Double = 0.0,
                 @SerialName("totalsnow_cm")
-                val totalsnowCm: Int = 0,
+                val totalSnowCm: Int = 0,
                 @SerialName("avgvis_km")
-                val avgvisKm: Double = 0.0,
+                val avgVisKm: Double = 0.0,
                 @SerialName("avgvis_miles")
-                val avgvisMiles: Int = 0,
+                val avgVisMiles: Int = 0,
                 @SerialName("avghumidity")
-                val avghumidity: Int = 0,
+                val avgHumidity: Int = 0,
                 @SerialName("daily_will_it_rain")
                 val dailyWillItRain: Int = 0,
                 @SerialName("daily_chance_of_rain")
@@ -170,9 +160,7 @@ data class WeatherEntity(
                 @SerialName("condition")
                 val condition: Condition = Condition(),
                 @SerialName("uv")
-                val uv: Double = 0.0,
-                @SerialName("air_quality")
-                val airQuality: AirQuality = AirQuality()
+                val uv: Double = 0.0
             ) {
                 @Serializable
                 data class Condition(
@@ -180,26 +168,6 @@ data class WeatherEntity(
                     val text: String = "",
                     @SerialName("code")
                     val code: Int = 0
-                )
-
-                @Serializable
-                data class AirQuality(
-                    @SerialName("co")
-                    val co: Double = 0.0,
-                    @SerialName("no2")
-                    val no2: Double = 0.0,
-                    @SerialName("o3")
-                    val o3: Double = 0.0,
-                    @SerialName("so2")
-                    val so2: Double = 0.0,
-                    @SerialName("pm2_5")
-                    val pm25: Double = 0.0,
-                    @SerialName("pm10")
-                    val pm10: Double = 0.0,
-                    @SerialName("us-epa-index")
-                    val usEpaIndex: Int = 0,
-                    @SerialName("gb-defra-index")
-                    val gbDefraIndex: Int = 0
                 )
             }
 
@@ -212,13 +180,13 @@ data class WeatherEntity(
                 @SerialName("moonrise")
                 val moonrise: String = "",
                 @SerialName("moonset")
-                val moonset: String = ""
+                val moonSet: String = ""
             )
 
             @Serializable
             data class Hour(
                 @SerialName("time_epoch")
-                val timeEpoch: Int = 0,
+                val timeEpoch: Long = 0L,
                 @SerialName("temp_c")
                 val tempC: Double = 0.0,
                 @SerialName("temp_f")
@@ -234,9 +202,7 @@ data class WeatherEntity(
                 @SerialName("wind_degree")
                 val windDegree: Int = 0,
                 @SerialName("wind_dir")
-                val windDir: String = "",
-                @SerialName("air_quality")
-                val airQuality: AirQuality = AirQuality()
+                val windDir: String = ""
             ) {
                 @Serializable
                 data class Condition(
@@ -245,26 +211,6 @@ data class WeatherEntity(
                     @SerialName("code")
                     val code: Int = 0
                 )
-
-                @Serializable
-                data class AirQuality(
-                    @SerialName("co")
-                    val co: Double = 0.0,
-                    @SerialName("no2")
-                    val no2: Double = 0.0,
-                    @SerialName("o3")
-                    val o3: Int = 0,
-                    @SerialName("so2")
-                    val so2: Double = 0.0,
-                    @SerialName("pm2_5")
-                    val pm25: Double = 0.0,
-                    @SerialName("pm10")
-                    val pm10: Double = 0.0,
-                    @SerialName("us-epa-index")
-                    val usEpaIndex: Int = 0,
-                    @SerialName("gb-defra-index")
-                    val gbDefraIndex: Int = 0
-                )
             }
         }
     }
@@ -272,6 +218,36 @@ data class WeatherEntity(
     @Serializable
     data class Alerts(
         @SerialName("alert")
-        val alert: List<Any?> = listOf()
-    )
+        val alerts: List<Alert> = listOf()
+    ) {
+        @Serializable
+        data class Alert(
+            @SerialName("headline")
+            val headline: String = "",
+            @SerialName("msgtype")
+            val msgType: String = "",
+            @SerialName("severity")
+            val severity: String = "",
+            @SerialName("urgency")
+            val urgency: String = "",
+            @SerialName("areas")
+            val areas: String = "",
+            @SerialName("category")
+            val category: String = "",
+            @SerialName("certainty")
+            val certainty: String = "",
+            @SerialName("event")
+            val event: String = "",
+            @SerialName("note")
+            val note: String = "",
+            @SerialName("effective")
+            val effective: String = "",
+            @SerialName("expires")
+            val expires: String = "",
+            @SerialName("desc")
+            val desc: String = "",
+            @SerialName("instruction")
+            val instruction: String = ""
+        )
+    }
 }

@@ -1,4 +1,4 @@
-package id.mrn.portfolio.ui.component
+package id.mrn.worldweather.ui.component
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope

@@ -1,4 +1,5 @@
 package id.mrn.services.di
 
-class DatabaseModule {
-}
+import org.koin.core.module.Module
+
+expect fun platformDatabaseModule(): Module

@@ -1,4 +1,4 @@
-package com.mrndevs.worldweather.ui.component
+package id.mrn.worldweather.ui.component
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
@@ -25,16 +25,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.mrndevs.worldweather.data.source.local.model.EmptyStatusEnum
-import com.mrndevs.worldweather.ui.theme.SP14
-import com.mrndevs.worldweather.ui.theme.SP16
-import com.mrndevs.worldweather.ui.theme.W400
-import com.mrndevs.worldweather.ui.theme.W600
-import com.mrndevs.worldweather.ui.theme.accordion
+import id.mrn.worldweather.data.model.EmptyStatusEnum
+import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun EmptyState(
@@ -73,14 +68,14 @@ fun EmptyState(
         )
 
         Text(
-            text = stringResource(status.title),
-            color = Color.White.copy(alpha = alpha),
-            style = SP16
+            text = status.title,
+            color = MaterialTheme.colorScheme.onBackground.copy(alpha = alpha),
+            style = MaterialTheme.typography.titleLarge
         )
         Text(
-            text = stringResource(status.placeholder),
-            color = accordion.copy(alpha = alpha),
-            style = SP14.W400,
+            text = status.placeholder,
+            color = MaterialTheme.colorScheme.surface.copy(alpha = alpha),
+            style = MaterialTheme.typography.bodyLarge,
             textAlign = TextAlign.Center
         )
 
@@ -101,7 +96,11 @@ fun EmptyState(
                 ) {
                     val text =
                         if (status == EmptyStatusEnum.FIRST_RUN_APP) "Get Started" else "Try again"
-                    Text(text = text, style = SP14.W600)
+                    Text(
+                        text = text,
+                        style = MaterialTheme.typography.bodyLarge,
+                        fontWeight = FontWeight.W600
+                    )
                 }
             }
         }
